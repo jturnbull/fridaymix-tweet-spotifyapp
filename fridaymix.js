@@ -2,9 +2,18 @@ sp = getSpotifyApi(1);
 
 exports.init = init;
 
+var statusdisplay = document.getElementById("status");
+
 function init() {
 
     updatePageWithTrackDetails();
+	
+	//setupTwitterCreds();
+
+    sp.core.addEventListener("argumentsChanged", function (event) {	
+		args = sp.core.getArguments(); 
+		setTab(args[0]+"Tab");		
+    });
 
     sp.trackPlayer.addEventListener("playerStateChanged", function(event) {
 
@@ -15,27 +24,58 @@ function init() {
     });
 }
 
+function setTab(key) {
+	console.log("key "+ key);
+	if (key == "settingsTab") {
+			document.getElementById("mainTab").hide();
+			document.getElementById(key).show();
+		} else {
+			document.getElementById("settingsTab").hide();
+			document.getElementById(key).show();
+		}
+
+}
+
+// function setupTwitterCreds() {
+// 	if ("consumerKey" in localStorage and "consumerSecret" in localStorage) {
+// 		// fixme
+// 	
+// 	}
+// 	else {
+// 		
+// 	}
+// }
+
+function setStorageVar(key, value) {
+	try {
+		 localStorage.setItem(key, value);
+	} catch (e) {
+		 if (e == QUOTA_EXCEEDED_ERR) {
+		 	 statusdisplay.innerHTML('<p><strong>Unable to save settings:</strong> Quota exceeded.</p>');
+		}
+	}
+}
+
 function updatePageWithTrackDetails() {
 
-    var header = document.getElementById("header");
+    var nowPlaying = document.getElementById("nowPlaying");
 
     // This will be null if nothing is playing.
     var playerTrackInfo = sp.trackPlayer.getNowPlayingTrack();
 
     if (playerTrackInfo == null) {
-        header.innerText = "Nothing playing!";
+        nowPlaying.innerText = "Nothing playing!";
     } else {
         var track = playerTrackInfo.track;
-        var text = "#fridaymixtest is playing " + track.name + " by " + track.album.artist.name;
-        header.innerText = text;
-        updateTwitter(text);
+		if (!track.isAd) {
+	        var text = "#fridaymixtest is playing " + track.name + " by " + track.album.artist.name;
+	        updateTwitter(text);
+		}
     }
 }
 
 
 function updateTwitter(status) {
-    
-    var statusdisplay = document.getElementById("status");
     
     if (typeof oauth_config === 'undefined') {
         statusdisplay.innerHTML = "<p><strong>Error</strong> You need to create oauth_config.js and set the variables.</p>";

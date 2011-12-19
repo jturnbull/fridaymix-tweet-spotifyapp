@@ -5,17 +5,30 @@
 	<title>My First App</title>
 	<link rel="stylesheet" href="sp://import/css/adam.css">
 	<link rel="stylesheet" href="tutorial.css">
-	<script src="sha1.js" type="text/javascript" charset="utf-8"></script>
-	<script src="oauth.js" type="text/javascript" charset="utf-8"></script>
-	<script src="oauth_config.js" type="text/javascript" charset="utf-8"></script>
-	
 </head>
 <body onload="sp = getSpotifyApi(1); fridaymix = sp.require('fridaymix'); fridaymix.init();">
 <h1 id="header">#fridaymix</h1>
 
-<div id="status">
+<div id="mainTab">
+	<p id="nowPlaying">Now playing:</p>
 	
 </div>
 
+
+<div id="settingsTab" style="display:none">
+	<form action="" method="post">
+		<p><label for="consumerKey">consumerKey</label><input type="text" name="consumerKey" value="" id="consumerKey"></p>
+		<p><label for="consumerSecret">consumerSecret</label><input type="text" name="consumerSecret" value="" id="consumerSecret"></p>
+		<button class="new-button" id="settingsSave">Save</button>
+	</form>
+</div>
+
+<div id="status">
+</div>
+
+
+<script src="sha1.js" type="text/javascript" charset="utf-8"></script>
+<script src="oauth.js" type="text/javascript" charset="utf-8"></script>
+<script src="oauth_config.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

@@ -1,16 +1,37 @@
 {
-    "BundleType": "Application",
+    "AppDescription": {
+        "en": "Tweets the current playing track"
+    }, 
     "AppIcon": {
         "36x18": "fridaymix.png"
-    },
+    }, 
     "AppName": {
         "en": "fridaymix"
-    },
+    }, 
+    "AppURL": "http://fridaymix.com", 
+    "BundleIdentifier": "fridaymix", 
+    "BundleType": "Application", 
+    "BundleVersion": "0.1", 
+    "DefaultTabs": [
+        {
+            "arguments": "home", 
+            "title": {
+                "en": "Home"
+            }
+        }, 
+        {
+            "arguments": "settings", 
+            "title": {
+                "en": "Settings"
+            }
+        }
+    ], 
+    "RequiredInterface": 1, 
+    "RequiredPermissions": [
+        "https://api.twitter.com"
+    ], 
     "SupportedLanguages": [
         "en"
-    ],
-    "RequiredPermissions": [
-        "https://api.twitter.com",
-        "http://widgets.twimg.com/"
-    ]
+    ], 
+    "VendorIdentifier": "com.rotacoo"
 }
