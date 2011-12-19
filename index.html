@@ -12,14 +12,14 @@
 
 <div id="mainTab">
 	<p id="nowPlaying">Now playing:</p>
-	
 </div>
 
 
 <div id="settingsTab" style="display:none;">
 	<form action="" method="post">
-		<p><label for="consumerKey">consumerKey</label><input type="text" name="consumerKey" value="" id="consumerKey"></p>
-		<p><label for="consumerSecret">consumerSecret</label><input type="text" name="consumerSecret" value="" id="consumerSecret"></p>
+		<p><label for="tweetTemplate">Tweet template</label><input type="text" name="tweetTemplate" value="" id="tweetTemplate" size="160"><br />
+		<small>Will be truncated to 140 chars. Use $ARTIST$, $TRACK$ and $ALBUM$.</small>
+		</p>
 		<button class="sp-button" id="settingsSave">Save</button>
 	</form>
 </div>

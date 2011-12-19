@@ -4,8 +4,11 @@ exports.init = init;
 
 var statusdisplay = $("#status");
 
-function init() {	
-	//setupTwitterCreds();
+var tweetTemplate = "";
+
+function init() {
+	
+	setupTweetTemplate();
 	
 	// listen for the tab chnage event and hide/show the divs
     sp.core.addEventListener("argumentsChanged", function (event) {
@@ -42,15 +45,17 @@ function setTab() {
 
 }
 
-// function setupTwitterCreds() {
-// 	if ("consumerKey" in localStorage and "consumerSecret" in localStorage) {
-// 		// fixme
-// 	
-// 	}
-// 	else {
-// 		
-// 	}
-// }
+function setupTweetTemplate() {
+	if ("tweetTemplate" in localStorage) {
+		console.log("Loading from storage");
+		tweetTemplate = localStorage['tweetTemplate'];
+	}
+	else {
+		tweetTemplate = "Now Playing $TRACK$ by $ARTIST$ from $ALBUM$";
+		setStorageVar("tweetTemplate", tweetTemplate);
+	}
+	$("#tweetTemplate").val(tweetTemplate);
+}
 
 function setStorageVar(key, value) {
 	try {
@@ -75,7 +80,7 @@ function updatePageWithTrackDetails() {
         var track = playerTrackInfo.track;
 		console.log("tweet isAd " + track.isAd + "bool" + Boolean(track.isAd));
 		if (!track.isAd) {
-	        var text = "#fridaymixtest is playing " + track.name + " by " + track.album.artist.name;
+			var text = tweetTemplate.replace("$ARTIST$", track.album.artist.name).replace("$TRACK$", track.name).replace("$ALBUM$", track.album.name);
 			nowPlaying.innerText = text;
 	        updateTwitter(text);
 		}
