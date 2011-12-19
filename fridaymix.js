@@ -2,19 +2,20 @@ sp = getSpotifyApi(1);
 
 exports.init = init;
 
-var statusdisplay = document.getElementById("status");
+var statusdisplay = $("#status");
 
-function init() {
-
-    updatePageWithTrackDetails();
-	
+function init() {	
 	//setupTwitterCreds();
-
-    sp.core.addEventListener("argumentsChanged", function (event) {	
-		args = sp.core.getArguments(); 
-		setTab(args[0]+"Tab");		
+	
+	// listen for the tab chnage event and hide/show the divs
+    sp.core.addEventListener("argumentsChanged", function (event) {
+		setTab();		
     });
-
+	
+	// also do it right away in case we refresh on the settigns tab
+	setTab();
+	
+	// listen for the player changing state
     sp.trackPlayer.addEventListener("playerStateChanged", function(event) {
 
         // Only update the page if the track changed
@@ -22,16 +23,21 @@ function init() {
             updatePageWithTrackDetails();
         }
     });
+	
+	// also update it right away in case it's already playing
+    updatePageWithTrackDetails();
 }
 
-function setTab(key) {
-	console.log("key "+ key);
+function setTab() {
+	var args = sp.core.getArguments();
+	var key = args[0]+"Tab";
+	
 	if (key == "settingsTab") {
-			document.getElementById("mainTab").hide();
-			document.getElementById(key).show();
+			$("#mainTab").hide();
+			$("#"+key).show();
 		} else {
-			document.getElementById("settingsTab").hide();
-			document.getElementById(key).show();
+			$("#settingsTab").hide();
+			$("#"+key).show();
 		}
 
 }
@@ -67,8 +73,10 @@ function updatePageWithTrackDetails() {
         nowPlaying.innerText = "Nothing playing!";
     } else {
         var track = playerTrackInfo.track;
+		console.log("tweet isAd " + track.isAd + "bool" + Boolean(track.isAd));
 		if (!track.isAd) {
 	        var text = "#fridaymixtest is playing " + track.name + " by " + track.album.artist.name;
+			nowPlaying.innerText = text;
 	        updateTwitter(text);
 		}
     }
